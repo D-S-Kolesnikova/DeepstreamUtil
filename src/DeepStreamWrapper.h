@@ -21,7 +21,7 @@ struct InferPluginParams
     std::string modelEnginePath; /*0: efficientNet, 1: resNet, 2: Yolo*/
     std::string labelfilePath;
     int networkMode = 0;/*0: FP32 1: INT8 2: FP16*/
-    double netScaleFactor = 1.0;
+     std::vector<double> netScaleFactor;
     std::vector<double> offsets;
     int modelColorFormat = 0;/*0: RGB 1: BGR 2: GRAY*/
     int batchSize = 1;

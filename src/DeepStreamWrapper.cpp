@@ -17,10 +17,10 @@ void NvInferPlugin::GenerateConfig(const std::string configFileName)
     ofs << "gie-unique-id=" << m_inferParams.gieUniqueId << "\n";
     ofs << "batch-size=" << m_inferParams.batchSize << "\n";
     ofs << "network-mode=" << m_inferParams.networkMode << "\n";
-    ofs << "offsets=" << m_inferParams.offsets[0] << ";" << m_inferParams.offsets[1] << ";" <<  m_inferParams.offsets[2] << "\n";
+    ofs << "net-scale-factor=" << m_inferParams.netScaleFactor[0] << ";" << m_inferParams.netScaleFactor[1] << ";" <<  m_inferParams.netScaleFactor[2] << "\n";
     ofs << "model-color-format=" << m_inferParams.modelColorFormat << "\n";
     ofs << "network-type=" << m_inferParams.networkType << "\n";
-    ofs << "net-scale-factor=" << m_inferParams.netScaleFactor[0] << ";" << m_inferParams.netScaleFactor[1] << ";" <<  m_inferParams.netScaleFactor[2] << "\n";
+    ofs << "offsets=" << m_inferParams.offsets[0] << ";" << m_inferParams.offsets[1] << ";" <<  m_inferParams.offsets[2] << "\n";
     ofs << "infer-dims=" << m_inferParams.inferDims[0] << ";" << m_inferParams.inferDims[1] << ";" <<  m_inferParams.inferDims[2] << "\n";
     ofs << "output-tensor-meta=" << m_inferParams.outputTensorMeta << "\n";
     if (m_inferParams.networkType == networkType::classification)

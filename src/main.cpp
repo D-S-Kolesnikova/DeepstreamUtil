@@ -182,7 +182,7 @@ void ParseArgsToConfig(DeepStreamWrapper::InferPluginParams& inferParams, std::s
     }
     if(vm.count("scale-factor"))
     {
-        inferParams.netScaleFactor = vm["scale-factor"].as<double>();
+        inferParams.netScaleFactor = vm["scale-factor"].as<std::vector<double>>();
     }
     if(vm.count("offsets"))
     {
@@ -412,7 +412,7 @@ int main (int argc, char **argv)
         ("onnx-file", po::value<std::string>(), "path to the ONNX model file")
         ("model-caffe-file", po::value<std::string>(), "path to the caffemodel file")
         ("proto-file", po::value<std::string>(), "path to the prototxt file")
-        ("ann-file", po::value<std::string>()->required(), "ann-file added");
+        ("ann-file", po::value<std::string>(), "ann-file added");
 
     po::options_description sysDesc("System options");
     sysDesc.add_options()
@@ -424,7 +424,7 @@ int main (int argc, char **argv)
         ("label-path",  po::value<std::string>(), "path to the text file containing the labels for the model")
         ("video-files", po::value<std::vector<std::string>>()->multitoken(), "path to video files as an input")
         ("network-mode", po::value<size_t>()->default_value(0), "0: FP32 1: INT8 2: FP16, default FP32")
-        ("scale-factor", po::value<double>()->default_value(1.0), "pixel normalization factor, default 1.0")
+        ("scale-factor", po::value<std::vector<double>>()->multitoken(), "pixel normalization factor, default 1.0")
         ("offsets", po::value<std::vector<double>>()->multitoken(), "array of mean values of color components to be subtracted from each pixel. Array length must equal the number of color components in the frame: {255, 255, 255}")
         ("model-color-format", po::value<size_t>()->default_value(0), "0: RGB 1: BGR 2: GRAY, default RGB")
         ("print-output-tensor", po::value<bool>()->default_value(false), "get raw tensor output, default false")
@@ -470,10 +470,6 @@ int main (int argc, char **argv)
     DeepStreamWrapper::InferPluginParams inferParams;
     ParseArgsToConfig(inferParams, configFileName, vm);
 
-    std::cout << "ANN: " << inferParams.annFile << "\n";
-
-    ItvCv::PNetworkInformation net = ItvCv::GetNetworkInformation(inferParams.annFile.c_str());
-    std::string weights = ItvCv::ConsumeWeightsData(net);
 
     GMainLoop *loop = NULL;
     GstElement  *pipeline = NULL, 
